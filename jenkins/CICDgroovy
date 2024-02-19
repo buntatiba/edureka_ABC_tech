@@ -9,6 +9,19 @@ pipeline {
 		            sh script: '/opt/maven/bin/mvn compile'
            }
         }
+        stage('codereview-pmd') {
+	         steps {
+                // step2
+                echo 'codereview..'
+                agent { label 'master' }
+		            sh script: '/opt/maven/bin/mvn -P metrics pmd:pmd'
+           }
+	         post {
+               success {
+		             recordIssues enabledForFailure: true, tool: pmdParser(pattern: '**/target/pmd.xml')
+               }
+           }		
+        }
         stage('unit-test') {
             agent { label 'slave1' }
 	          steps {
