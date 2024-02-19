@@ -1,0 +1,36 @@
+pipeline {
+    agent none  
+    stages {
+        stage('compile') {
+            agent { label 'master' }
+	         steps {
+                // step1 
+                echo 'compiling..'
+		            sh script: '/opt/maven/bin/mvn compile'
+           }
+        }
+        stage('unit-test') {
+            agent { label 'slave1' }
+	          steps {
+                // step2
+                echo 'unittest..'
+	               sh script: '/opt/maven/bin/mvn test'
+            }
+	          post {
+               success {
+                   junit 'target/surefire-reports/*.xml'
+               }
+            }			
+        }
+        
+        stage('package/build-war') {
+            agent { label 'slave1' }
+	         steps {
+                // step3
+                echo 'package......'
+		            sh script: '/opt/maven/bin/mvn package'	
+           }		
+        }
+       
+    }
+} 
