@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: abctechnologiesjavaapp
-        image: buntatiba/abctechnologies:{{ build }}
+        image: buntatiba/abctechnologies:nber
         ports:
         - name: http
           containerPort: 8080
