@@ -25,7 +25,7 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-  name: addressbook-svc
+  name: edureka-project-svc
 spec:
   type: NodePort
   selector:
