@@ -71,7 +71,7 @@ pipeline {
                     sh script: 'ansible-playbook $WORKSPACE/deploy/deploy-kube.yml --extra-vars "env=qa build=$BUILD_NUMBER"'
            }		
         }
-       stage('Deploy to K8s') {
+       stage('Deploy to prod') {
   	    steps {
     		sh script: 'ansible-playbook $WORKSPACE/deploy/deploy-kube-prod.yml --extra-vars "env=prod build=$BUILD_NUMBER"'    
 	      }
