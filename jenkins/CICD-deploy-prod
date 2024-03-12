@@ -66,9 +66,9 @@ pipeline {
                 }	
             }		
         }
-        stage('deploy-QA') {
-	         steps {
-                    sh script: 'ansible-playbook $WORKSPACE/deploy/deploy-kube.yml --extra-vars "env=qa build=$BUILD_NUMBER"'
+       // stage('deploy-QA') {
+	        // steps {
+                   //sh script: 'ansible-playbook $WORKSPACE/deploy/deploy-kube.yml --extra-vars "env=qa build=$BUILD_NUMBER"'
            }		
         }
        stage('Deploy to K8s') {
