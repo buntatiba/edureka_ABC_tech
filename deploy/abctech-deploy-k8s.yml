@@ -14,9 +14,9 @@ spec:
       labels:
         app: abctechnologies
     spec:
-      containers:
-      - name: abctechnologiesjavaapp
-        image: buntatiba/abctechnologies:build
-        ports:
+       containers:
+       - name: abctechnologiesjavaapp
+         image: buntatiba/abctechnologies:build
+         ports:
         - name: http
           containerPort: 8080
