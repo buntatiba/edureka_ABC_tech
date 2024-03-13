@@ -16,21 +16,7 @@ spec:
     spec:
       containers:
       - name: abctechnologiesjavaapp
-        image: buntatiba/abctechnologies:nber
+        image: buntatiba/abctechnologies:build
         ports:
         - name: http
           containerPort: 8080
-
----
-kind: Service
-apiVersion: v1
-metadata:
-  name: edureka-project-svc
-spec:
-  type: NodePort
-  selector:
-    app: abctechnologies
-  ports:
-  - port: 80
-    targetPort: 8080
-    nodePort: 30001

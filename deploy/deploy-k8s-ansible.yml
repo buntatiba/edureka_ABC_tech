@@ -1,0 +1,28 @@
+- hosts: "{{ env }}"
+  become: yes
+  tasks: 
+    - name: Deploying Application pods...
+      shell: | 
+         if [ `kubectl get deployment | grep -v NAME | awk '{print $1}' | grep abctechnologies-1-0 | wc -l` -gt 0 ]; then  
+            echo "deleteing previous application deployment"
+            kubectl delete deployment `kubectl get deployment | grep -v NAME | awk '{print $1}' | grep abctechnologies-1-0`
+            echo "creating new application deployment"
+            kubectl apply -f $WORKSPACE/deploy/abctech-deploy-k8s.yaml
+         else 
+            echo "Deploying abctechnologies-1-0 Application"
+           kubectl apply -f $WORKSPACE/deploy/abctech-deploy-k8s.yaml
+         fi
+    - name: deploying service
+      shell: |
+         if [ `kubectl get svc | grep abctechnologies-1-0  | awk '{print $1}' | wc -l` -gt 0 ]; then
+            echo "app service found, No actions taken"
+            kubectl delete svc `kubectl get svc | grep abctechnologies-1-0 | awk '{print $1}'`
+            echo "creating new service"
+            kubectl apply -f $WORKSPACE/deploy/abctech-svc-k8s.yaml
+         else
+            echo "Creating App Services"
+            kubectl apply -f $WORKSPACE/deploy/abctech-svc-k8s.yaml
+         fi
+    - name: increase replicas 
+      shell: kubectl scale deploy abctechnologies-1-0 --replicas=2
+      
