@@ -26,7 +26,7 @@
     
     - name: Update Deployment YAML
       ansible.builtin.replace:
-        path: /var/lib/jenkins/workspace/deploy/abctech-deploy-k8s.yml
+        path: https://github.com/buntatiba/edureka_ABC_tech/blob/main/deploy/abctech-deploy-k8s.yml
         regexp: '(^(\s+)containers:(\s+))'
         replace: |
           \1containers:\n\2- name: abctechnologies\n\2  image: buntatiba/abctechnologies:11\n\2  ports:\n\2  - containerPort: 8181\n\2
@@ -35,11 +35,11 @@
     - name: Create Service YAML
       ansible.builtin.template:
         src: templates/service.yaml.j2
-        dest: /var/lib/jenkins/workspace/deploy/abctech-svc-k8s.yml
+        dest: https://github.com/buntatiba/edureka_ABC_tech/blob/main/deploy/abctech-svc-k8s.yml
       become: false
 
     - name: Apply Deployment and Service
-      ansible.builtin.shell: "kubectl apply -f /var/lib/jenkins/workspace/deploy/abctech-deploy-k8s.ym -f /var/lib/jenkins/workspace/deploy/abctech-svc-k8s.yml"
+      ansible.builtin.shell: "kubectl apply -f https://github.com/buntatiba/edureka_ABC_tech/blob/main/deploy/abctech-deploy-k8s.yml -f https://github.com/buntatiba/edureka_ABC_tech/blob/main/deploy/abctech-svc-k8s.yml"
       become: false
 
        #- name: deploy app
