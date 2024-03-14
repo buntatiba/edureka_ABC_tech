@@ -18,5 +18,5 @@ spec:
        - name: abctechnologiesjavaapp
          image: buntatiba/abctechnologies:build
          ports:
-        - name: http
-          containerPort: 8080
+         - name: http
+            containerPort: 8080
