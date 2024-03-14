@@ -7,10 +7,10 @@
             echo "deleteing previous application deployment"
             kubectl delete deployment `kubectl get deployment | grep -v NAME | awk '{print $1}' | grep abctechnologies-1-0`
             echo "creating new application deployment"
-            kubectl create deployment abctechnologies-1-0 --image=buntatiba/abctechnologies:{{ build }}
+            kubectl apply -f /root/edureka_ABC_tech/deploy/abctech-deploy-k8s.yml
          else 
             echo "Deploying abctechnologies-1-0 Application"
-            kubectl create deployment abctechnologies-1-0 --image=buntatiba/abctechnologies:{{ build }}
+            kubectl apply -f /root/edureka_ABC_tech/deploy/abctech-deploy-k8s.yml
          fi
     - name: deploying service
       shell: |
@@ -19,7 +19,7 @@
             #kubectl delete svc `kubectl get svc | grep abctechnologies-1-0 | awk '{print $1}'`
          else
             echo "Creating App Services"
-            kubectl expose deployment abctechnologies-1-0 --name abctechnologies-1-0 --type NodePort --port 80 --target-port 8080
+            kubectl apply -f /root/edureka_ABC_tech/deploy/abctech-svc-k8s.yml
          fi
        #- name: deploy app
       #shell: kubectl create deployment abctechnologies-1-0 --image=buntatiba/abctechnologies:{{ build }}
