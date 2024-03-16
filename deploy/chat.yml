@@ -11,7 +11,7 @@
       when: deployment_check.rc == 0
 
     - name: Creating new application deployment
-      shell: kubectl create deployment abctechnologies-1-0 --image=buntatiba/abctechnologies:{{ build }} --port=8080
+      shell: kubectl create deployment abctechnologies-1-0 --image=buntatiba/abctechnologies:34 --port=8080
       when: deployment_check.rc != 0
 
     - name: Check if service exists
