@@ -73,8 +73,7 @@ pipeline {
         }
        stage('Deploy to prod') {
   	    steps {
-    		sh 'sed -i "s/bno/"$BUILD_NUMBER"/g" deploy/chat.yml'
-    		    sh 'kubectl apply -f deploy/chat.yml'   
+    		sh script: 'ansible-playbook $WORKSPACE/deploy/chat.yml --extra-vars "env=prod build=$BUILD_NUMBER"'    
 	      }
 	    }   
     }     
