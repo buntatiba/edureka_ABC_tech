@@ -6,12 +6,8 @@
       ignore_errors: true
       register: deployment_check
 
-    - name: Deleting previous application deployment
-      shell: kubectl delete deployment abctechnologies-1-0
-      when: deployment_check.rc == 0
-
     - name: Creating new application deployment
-      shell: kubectl create deployment abctechnologies-1-0 --image=buntatiba/abctechnologies:34 --port=8080
+      shell: kubectl create deployment abctechnologies-1-0 --image=buntatiba/abctechnologies:35 --port=8080
       when: deployment_check.rc != 0
 
     - name: Check if service exists
