@@ -8,8 +8,7 @@ pipeline {
     stages {
         stage('compile') {
 	         steps {
-                // step1 
-                // compiles the code using Maven
+                // step1_compiles the code using Maven
                 echo 'compiling..'
 		            git branch: 'main', url: 'https://github.com/buntatiba/edureka_ABC_tech'
 		            sh script: '/opt/maven/bin/mvn compile'
@@ -17,8 +16,7 @@ pipeline {
         }
         stage('codereview-pmd') {
 	         steps {
-                // step2
-                // Performs code review and static analysis using PMD. Issues are recorded and analyzed
+                // step2_Performs code review and static analysis using PMD. Issues are recorded and analyzed
                 echo 'codereview..'
 		            sh script: '/opt/maven/bin/mvn -P metrics pmd:pmd'
            }
@@ -30,8 +28,7 @@ pipeline {
         }
         stage('unit-test') {
 	          steps {
-                // step3
-                // Runs unit tests and reports results using JUnit.
+                // step3_Runs unit tests and reports results using JUnit.
                 echo 'unittest..'
 	               sh script: '/opt/maven/bin/mvn test'
             }
@@ -43,8 +40,7 @@ pipeline {
         }
         stage('codecoverage') {
 	   steps {
-          // step4
-          // Measures code coverage using Jacoco and ensures coverage thresholds are met.    
+          // step4_Measures code coverage using Jacoco and ensures coverage thresholds are met.
                 echo 'unittest..'
 	        sh script: '/opt/maven/bin/mvn verify'
                  }
