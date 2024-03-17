@@ -9,6 +9,7 @@ pipeline {
         stage('compile') {
 	         steps {
                 // step1 
+                // compiles the code using Maven
                 echo 'compiling..'
 		            git branch: 'main', url: 'https://github.com/buntatiba/edureka_ABC_tech'
 		            sh script: '/opt/maven/bin/mvn compile'
@@ -17,6 +18,7 @@ pipeline {
         stage('codereview-pmd') {
 	         steps {
                 // step2
+                // Performs code review and static analysis using PMD. Issues are recorded and analyzed
                 echo 'codereview..'
 		            sh script: '/opt/maven/bin/mvn -P metrics pmd:pmd'
            }
@@ -28,7 +30,8 @@ pipeline {
         }
         stage('unit-test') {
 	          steps {
-                // step2
+                // step3
+                // Runs unit tests and reports results using JUnit.
                 echo 'unittest..'
 	               sh script: '/opt/maven/bin/mvn test'
             }
@@ -40,6 +43,8 @@ pipeline {
         }
         stage('codecoverage') {
 	   steps {
+          // step4
+          // Measures code coverage using Jacoco and ensures coverage thresholds are met.    
                 echo 'unittest..'
 	        sh script: '/opt/maven/bin/mvn verify'
                  }
@@ -51,7 +56,7 @@ pipeline {
         }
         stage('package/build-war') {
 	         steps {
-                // step3
+                // step5_Packages the application into a WAR file.
                 echo 'package......'
 		            sh script: '/opt/maven/bin/mvn package'	
            }		
@@ -59,6 +64,7 @@ pipeline {
         
        stage('build & push docker image') {
 	         steps {
+                // step6 Builds the Docker image using a Dockerfile and pushes it to a Docker registry.
               withDockerRegistry(credentialsId: 'DOCKER_HUB_LOGIN', url: 'https://index.docker.io/v1/') {
                     sh script: 'cd  $WORKSPACE'
                     sh script: 'docker build --file Dockerfile --tag docker.io/buntatiba/abctechnologies:$BUILD_NUMBER .'
@@ -68,11 +74,13 @@ pipeline {
         }
         stage('deploy-QA') {
 	         steps {
+                // step7_Deploys the application to the QA environment using an Ansible playbook.
                     sh script: 'ansible-playbook $WORKSPACE/deploy/deploy-kube.yml --extra-vars "env=qa build=$BUILD_NUMBER"'
            }		
         }
        stage('Deploy to prod') {
   	    steps {
+            // step8_Deploys the application to the production environment using another Ansible playbook.
     		sh script: 'ansible-playbook $WORKSPACE/deploy/deploy-kube-prod.yml --extra-vars "env=prod build=$BUILD_NUMBER"'
 	      }
 	    }   
